@@ -3,16 +3,10 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 
 import { AgGridReact } from "ag-grid-react";
-import { LicenseManager } from "ag-grid-enterprise";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
-import "ag-grid-enterprise";
 
 import { Button } from "react-bootstrap";
-
-LicenseManager.setLicenseKey(
-  "Evaluation_License_Valid_Until__22_December_2018__MTU0NTQzNjgwMDAwMA==d8310d76d04f6e775e384fcc32f337c5"
-);
 
 class SquareRenderer extends Component {
   render() {
