@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-balham.css'
+import { LicenseManager } from 'ag-grid-enterprise'
 
 import { Button } from 'react-bootstrap'
 
@@ -30,23 +31,6 @@ const StyledDiv = styled.div`
 
 const AppHeader = styled.div`
   width: 100%;
-`
-
-const AppFooter = styled.div`
-  width: 100%;
-  padding: 5px;
-  background-color: whitesmoke;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`
-
-const FooterRight = styled.div`
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
 `
 
 const AppBody = styled.div`
@@ -76,19 +60,22 @@ class SquareRenderer extends Component {
 
 const carMakers = ['Ford', 'Toyota', 'Citroën', 'Mercedes', 'Peugeot', 'Skoda', 'Vauxhall']
 
+// ag-Grid license key: *** THE ACTUAL KEY WAS REPLACED WITH 1111111s ***
+LicenseManager.setLicenseKey('KAPPA_Engineering__MultiApp_3Devs29_October_2019__1111111111111111111')
+
 class App extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       columnDefs: [
-        { headerName: 'Make', field: 'make' },
-        { headerName: 'Model', field: 'model', editable: true },
+        { headerName: 'Make', field: 'make', sortable: true, resizable: true },
+        { headerName: 'Model', field: 'model', sortable: true, editable: true, resizable: true },
         {
           headerName: 'Price',
           field: 'price',
-          suppressSorting: true,
           cellRenderer: 'squareRenderer',
+          sortable: false,
         },
       ],
       rowData: [
@@ -117,21 +104,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // fetch("https://api.myjson.com/bins/15psn9")
-    //   .then(result => result.json())
-    //   .then(rowData => this.setState({ rowData }));
-
     this.setState({ rowData: this.generateData(10000) })
   }
 
   onButtonClick = e => {
-    // const selectedNodes = this.gridApi.getSelectedNodes();
-    // const selectedData = selectedNodes.map(node => node.data);
-    // const selectedDataStringPresentation = selectedData
-    //   .map(node => node.make + " " + node.model)
-    //   .join(", ");
-    // alert(`Selected nodes: ${selectedDataStringPresentation}`);
-
     this.gridApi.forEachNode(node => {
       if (node.data.make === 'Ford') {
         node.setSelected(true)
@@ -160,11 +136,8 @@ class App extends Component {
           >
             <button onClick={this.onButtonClick}>Select Ford rows</button>
             <AgGridReact
-              enableSorting={true}
-              enableFilter={true}
               rowSelection="multiple"
               columnDefs={this.state.columnDefs}
-              enableColResize={true}
               enableRangeSelection
               suppressRowClickSelection
               rowData={this.state.rowData}
@@ -174,20 +147,6 @@ class App extends Component {
             />
           </div>
         </AppBody>
-
-        {/* <Modal.Dialog>
-          <Modal.Header>
-            <Modal.Title>Modal</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            TEST
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button>Close</Button>
-          </Modal.Footer>
-        </Modal.Dialog> */}
       </StyledDiv>
     )
   }
