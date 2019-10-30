@@ -115,6 +115,10 @@ class App extends Component {
     })
   }
 
+  insertRow = () => {
+    this.gridApi.updateRowData({ add: [{ make: 'Lada', model: 'Niva', price: 2000 }], addIndex: 0 })
+  }
+
   onCellClicked = e => {
     console.log(e)
   }
@@ -135,6 +139,7 @@ class App extends Component {
             }}
           >
             <button onClick={this.onButtonClick}>Select Ford rows</button>
+            <button onClick={this.insertRow}>Insert a Row</button>
             <AgGridReact
               rowSelection="multiple"
               columnDefs={this.state.columnDefs}
